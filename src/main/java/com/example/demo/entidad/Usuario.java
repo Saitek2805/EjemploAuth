@@ -24,6 +24,9 @@ public class Usuario {
     private Set<Comentario> comentarios = new HashSet<>();
  
     
+    @OneToOne(mappedBy= "usuario", cascade = CascadeType.ALL)
+    private PerfilUsuario perfilusuario;
+    
     @ElementCollection(targetClass = RolUsuario.class) //Instrucción de Hibernate para que guarde colecciones enumeradas
     @Enumerated(EnumType.STRING)
     @CollectionTable(name="usuario_rol")
@@ -69,6 +72,14 @@ public class Usuario {
 
 	public void setComentarios(Set<Comentario> comentarios) {
 		this.comentarios = comentarios;
+	}
+
+	public PerfilUsuario getPerfilusuario() {
+		return perfilusuario;
+	}
+
+	public void setPerfilusuario(PerfilUsuario perfilusuario) {
+		this.perfilusuario = perfilusuario;
 	}
 
 	

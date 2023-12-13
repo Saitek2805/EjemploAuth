@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.entidad.Comentario;
+import com.example.demo.entidad.PerfilUsuario;
 import com.example.demo.entidad.Usuario;
 import com.example.demo.entidad.enumerado.RolUsuario;
 import com.example.demo.repositorio.ComentarioRepository;
@@ -64,9 +65,18 @@ public class InicializarDatos implements CommandLineRunner {
 	 private Usuario crearOBuscarUsuario(String username, String password, RolUsuario rol) {
 	     return usuarioRepository.findByUsername(username).orElseGet(() -> {
 	         Usuario nuevoUsuario = new Usuario();
+	         PerfilUsuario perfil = new PerfilUsuario();
+	         
+	         perfil.setNombre(faker.name().firstName());
+	         perfil.setApellido(faker.name().lastName());
+	         perfil.setEmail(faker.internet().emailAddress());
+	         
 	         nuevoUsuario.setUsername(username);
 	         nuevoUsuario.setPassword(passwordEncoder.encode(password));
 	         nuevoUsuario.getRoles().add(rol);
+	         
+	         nuevoUsuario.setPerfilusuario(perfil);
+	         perfil.setUsuario(nuevoUsuario);
 	         return usuarioRepository.save(nuevoUsuario);
 	     });
 	 }

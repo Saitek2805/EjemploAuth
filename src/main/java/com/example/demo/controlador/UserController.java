@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.dto.UsuarioDTO;
 import com.example.demo.entidad.Comentario;
+import com.example.demo.entidad.PerfilUsuario;
 import com.example.demo.entidad.Usuario;
 import com.example.demo.servicio.comentario.ComentarioServicio;
 import com.example.demo.servicio.usuario.UsuarioServicio;
@@ -88,7 +89,11 @@ public class UserController {
         comentarios = comentariosServicio.listarTodos(pageRequest);
         System.out.println("#COMENTARIOS TOTALES: " + comentarios);
     }
+   
     
+    PerfilUsuario perfilUsuario = usuarioServicio.obtenerPorUsername(usernameAuth).getPerfilusuario();
+    
+    model.addAttribute("perfilUsuario", perfilUsuario);
         model.addAttribute("comentarios", comentarios);
         model.addAttribute("requestURI", request.getRequestURI());
 
