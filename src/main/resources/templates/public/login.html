@@ -9,7 +9,12 @@
 <body>
 	    <div class="container mt-4">
     <div th:replace="~{fragments/header :: headerFragment}"></div>
-
+ <!-- Botón de inicio de sesión con Google -->
+        <div class="text-center">
+            <a href="/oauth2/authorization/google" class="btn btn-primary">
+                Iniciar sesión con Google
+            </a>
+        </div>
 
     <div th:replace="~{fragments/login-form :: loginFormFragment}"></div>
 

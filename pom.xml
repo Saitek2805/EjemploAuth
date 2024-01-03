@@ -67,7 +67,23 @@
     <artifactId>javafaker</artifactId>
     <version>1.0.2</version> <!-- Verifica la última versión disponible -->
 </dependency>
-
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-log4j12</artifactId>
+</dependency>
+<!-- Dependencia para Spring Boot DevTools -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+        <scope>runtime</scope>
+        <optional>true</optional>
+    </dependency>
+    
+    <!-- Spring Boot Starter for OAuth2 Client -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-oauth2-client</artifactId>
+    </dependency>
 	</dependencies>
 
 	<build>

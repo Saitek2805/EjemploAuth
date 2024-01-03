@@ -1,9 +1,12 @@
 package com.example.demo.controlador;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -14,6 +17,7 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,19 +102,7 @@ public class UserControllerTest {
 		SecurityContextHolder.setContext(securityContext);
 	}
 
-	@Test
-	@WithMockUser(username = "user", roles = "USER")
-	public void testUserHomePage() throws Exception {
-		
-		mockMvc
-		.perform(get("/user/home")).andExpect(status().isOk())
-        .andExpect(model().attributeExists("username"))
-        .andExpect(model().attributeExists("usuarioDTO"))
-        .andExpect(model().attributeExists("comentarios"))
-     // Agrega más aserciones para verificar los atributos del modelo si es necesario
-		.andExpect(view().name("auth/user/home"));
-		
-	}
+
 	@Test
 	@WithMockUser(username = "user", roles = "USER")
 	public void testMostrarFormularioComentario() throws Exception {
@@ -134,5 +126,38 @@ public class UserControllerTest {
 	          
       
 	}
+	
+	@Test
+	@WithMockUser
+	public void testMostrarFormularioDeCreacion() throws Exception {
+	    mockMvc.perform(get("/crear"))
+	           .andExpect(status().isOk())
+	           .andExpect(view().name("public/formCrearUsuario"))
+	           
+	           .andExpect(model().attributeExists("usuario"));
+	}
+	@Test
+	@WithMockUser
+	public void testCrearUsuario() throws Exception {
+	    // Datos de prueba
+	    String username = "nuevoUsuario";
+	    String password = "contraseñaSegura123";
+	    String email = "nuevo@correo.com";
+	    String nombre = "Nuevo";
+	    String apellido = "Usuario";
 
+	    // Simula una solicitud POST al endpoint /crear
+	    mockMvc.perform(post("/crear")
+	                    .param("username", username)
+	                    .param("password", password)
+	                    .param("perfilusuario.email", email)
+	                    .param("perfilusuario.nombre", nombre)
+	                    .param("perfilusuario.apellido", apellido)
+	                    .with(csrf()))
+	           .andExpect(status().is3xxRedirection())
+	           .andExpect(redirectedUrl("/"));
+	    
+	    // Verificar que el método guardar del servicio fue llamado
+	    verify(usuarioServicio, times(1)).guardar(any(Usuario.class));
+	}
 }

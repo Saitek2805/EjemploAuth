@@ -1,11 +1,15 @@
 package com.example.demo.configuracion;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.hibernate.annotations.Filter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.example.demo.entidad.enumerado.RolUsuario;
@@ -17,7 +21,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Filter(name = "FiltroDeAutenticacionPersonalizado")
 public class FiltroDeAutenticacionPersonalizado extends BasicAuthenticationFilter {
-	
+    private static final Logger logger = LoggerFactory.getLogger(FiltroDeAutenticacionPersonalizado.class);
+
     public FiltroDeAutenticacionPersonalizado(AuthenticationManager authenticationManager) {
 		super(authenticationManager);
 	}
@@ -27,8 +32,31 @@ public class FiltroDeAutenticacionPersonalizado extends BasicAuthenticationFilte
             throws IOException, ServletException {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	
+		
 		
         if (authentication != null) {
+        	
+        	if (authentication.getPrincipal() instanceof OAuth2User) {
+    		    // Definir la lógica de redirección para usuarios de Google
+
+    		    OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+    		    // Extrae la información necesaria del objeto OAuth2User
+    		    Map<String, Object> attributes = oAuth2User.getAttributes();
+    		    String email = (String) attributes.get("email");
+    		    String name = (String) attributes.get("name");
+    		    // Aquí puedes incluir la lógica para manejar el email y el nombre, como guardarlos en la base de datos
+
+    		  
+    		    
+    		    // Registro de actividad para fines de depuración o auditoría
+    		    
+    		    logger.info("#FiltroDeAutenticacionPersonalizado#");
+    		    logger.info("Usuario autenticado con Google: Email = {}, Nombre = {}", email, name);
+    		}
+        	
+        	
+        	
             boolean isUser = authentication.getAuthorities().contains(new SimpleGrantedAuthority(RolUsuario.ROLE_USER.toString()));
             boolean isAdmin = authentication.getAuthorities().contains(new SimpleGrantedAuthority(RolUsuario.ROLE_ADMIN.toString()));
             String requestURI = request.getRequestURI();

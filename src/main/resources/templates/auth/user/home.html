@@ -10,7 +10,7 @@
 
 <body>
 	<div class="container">
-		<h1>Bienvenido, <span th:text="${username}">Nombre de Usuario</span>!</h1>
+		<h1>Bienvenido, <span th:text="${perfilUsuario.nombre}">Nombre de Usuario</span>!</h1>
 		<p>Esta página es solo para Usuario.</p>
 		<div th:replace="~{fragments/logout-fragment :: logout-link}"></div>
 

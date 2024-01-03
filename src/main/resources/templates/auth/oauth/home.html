@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Página de usuario</title>
+	<!-- Agregar enlaces a las hojas de estilo de Bootstrap -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	    <link rel="stylesheet" th:href="@{/css/estilo.css}" />
+</head>
+
+<body>
+	<div class="container">
+		<h1>Bienvenido, <span th:text="${attributes['name']}">Nombre de Usuario</span>!</h1>
+		
+		<p>Esta página es solo para usuarios de Google.</p>
+		<img th:src="${attributes['picture']}" alt="User Picture"/>
+
+		<div th:replace="~{fragments/logout-fragment :: logout-link}"></div>
+
+		<div th:replace="~{fragments/footer :: footerFragment}"></div>
+
+	</div>
+
+	<!-- Agregar scripts de Bootstrap (jQuery y Popper.js son necesarios) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

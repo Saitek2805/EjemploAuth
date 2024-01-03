@@ -2,11 +2,12 @@ package com.example.demo.controlador;
 
 import java.time.LocalDateTime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.dto.UsuarioDTO;
 import com.example.demo.entidad.Comentario;
+import com.example.demo.entidad.PerfilUsuario;
 import com.example.demo.entidad.Usuario;
 import com.example.demo.servicio.comentario.ComentarioServicio;
 import com.example.demo.servicio.usuario.UsuarioServicio;
@@ -32,6 +34,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/user")
 public class UserController {
 	
+
 	@Autowired
 	ComentarioServicio comentariosServicio;
 	@Autowired
@@ -48,8 +51,10 @@ public class UserController {
             @RequestParam(required = false) String palabraClave, /* PARA BUSCAR */
             HttpServletRequest request ) /* Para obtener URI -> request.getRequestURI()*/
     {
-    	
-   	 String usernameAuth = authentication.getName(); // Obtener el nombre de usuario del objeto de autenticación
+     
+
+		
+		String usernameAuth = authentication.getName(); // Obtener el nombre de usuario del objeto de autenticación
 	 model.addAttribute("username", usernameAuth); // Agregarlo al modelo
 	 
 	 UsuarioDTO usuarioDTO = usuarioServicio.obtenerUsuarioDTO(usernameAuth);
@@ -66,7 +71,8 @@ public class UserController {
      * ##    PÁGINACIÓN     ##
      * #######################	 
      */
-    //Obtener { Comentarios }
+    
+    //Obtener { Comentarios } ordenar por fecha de creación
     PageRequest pageRequest = PageRequest.of(page, size,Sort.by("fechaCreacion").descending());
     Page<Comentario> comentarios = null;
 
@@ -88,7 +94,13 @@ public class UserController {
         comentarios = comentariosServicio.listarTodos(pageRequest);
         System.out.println("#COMENTARIOS TOTALES: " + comentarios);
     }
-    
+   
+    try {
+    	PerfilUsuario perfilUsuario = usuarioServicio.obtenerPorUsername(usernameAuth).getPerfilusuario();
+	    model.addAttribute("perfilUsuario", perfilUsuario);
+    } catch (Exception e) {
+    }
+   
         model.addAttribute("comentarios", comentarios);
         model.addAttribute("requestURI", request.getRequestURI());
 

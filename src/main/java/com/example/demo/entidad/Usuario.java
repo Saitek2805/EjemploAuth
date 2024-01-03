@@ -5,6 +5,7 @@ import java.util.Set;
 import com.example.demo.entidad.enumerado.RolUsuario;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 
 @Table(name = "Usuarios")
@@ -14,15 +15,19 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(unique = true)
+    @Column(unique = true, name="username")
     private String username;
     
+    @Column(name="password")
     @Size(min = 8) // Asumiendo que quieres una contraseña de al menos 8 caracteres
     private String password;
     
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Comentario> comentarios = new HashSet<>();
- 
+	
+    @Valid
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private PerfilUsuario perfilusuario;
     
     @ElementCollection(targetClass = RolUsuario.class) //Instrucción de Hibernate para que guarde colecciones enumeradas
     @Enumerated(EnumType.STRING)
@@ -69,6 +74,14 @@ public class Usuario {
 
 	public void setComentarios(Set<Comentario> comentarios) {
 		this.comentarios = comentarios;
+	}
+
+	public PerfilUsuario getPerfilusuario() {
+		return perfilusuario;
+	}
+
+	public void setPerfilusuario(PerfilUsuario perfilusuario) {
+		this.perfilusuario = perfilusuario;
 	}
 
 	

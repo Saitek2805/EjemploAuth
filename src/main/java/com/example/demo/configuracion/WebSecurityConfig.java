@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -21,8 +22,7 @@ import com.example.demo.servicio.usuario.UsuarioPersonalizadoDetailsService;
 public class WebSecurityConfig {
 	 @Autowired
 	 private UsuarioPersonalizadoDetailsService userDetailsService;
-	 
-	 
+
 	@Bean
 	public  SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationConfiguration authenticationConfiguration) throws Exception {
        
@@ -32,10 +32,13 @@ public class WebSecurityConfig {
 	        .authorizeHttpRequests((authorize) -> authorize
 		       .requestMatchers("/admin/**").hasRole("ADMIN")  // Rutas bajo "/admin/" requieren el rol ADMIN
 		       .requestMatchers("/user/**").hasRole("USER")    // Rutas bajo "/user/" requieren el rol USER
-		       .requestMatchers("/login","/", "/home", "/public/**").permitAll() // Permite el acceso a estas rutas sin autenticación
+		       .requestMatchers("/login","/", "/home", "/crear", "/public/**").permitAll() // Permite el acceso a estas rutas sin autenticación
 		       .anyRequest().authenticated() // Cualquier otra solicitud requiere autenticación
 	        
 	        ).userDetailsService(userDetailsService)
+	        .oauth2Login(oauth2 -> oauth2.loginPage("/login").successHandler(new CustomAuthenticationSuccessHandler())
+	               
+	            )
 		   // Configuración para el proceso de inicio de sesión
 	       .formLogin(formLogin -> 
             formLogin
@@ -60,7 +63,12 @@ public class WebSecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder();
 	}
-	
+	/*
+	@Bean
+	public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
+	    return new UsuarioGoogleOAuth2UserService();
+	}*/
+}
 	/**
 	 * En memoria
 	@Bean
@@ -84,4 +92,3 @@ public class WebSecurityConfig {
 
 
 
-}

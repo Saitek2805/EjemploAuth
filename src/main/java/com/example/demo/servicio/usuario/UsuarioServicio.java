@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.demo.dto.UsuarioDTO;
 
@@ -20,8 +21,21 @@ public class UsuarioServicio {
 
 	@Autowired
 	UsuarioRepository usuarioRepositorio;
+	
+	 @Autowired
+	 
+	 private PasswordEncoder passwordEncoder;
 
 	public Usuario guardar(Usuario usuario) {
+		// Codificar la contraseña antes de guardar el usuario
+	    // Codificar la contraseña
+	    usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
+	    // Establecer la relación bidireccional
+	    if (usuario.getPerfilusuario() != null) {
+	        usuario.getPerfilusuario().setUsuario(usuario);
+	    }
+		
 		return usuarioRepositorio.save(usuario);
 	}
 

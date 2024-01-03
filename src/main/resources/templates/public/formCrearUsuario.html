@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Crear Usuario</title>
+    <!-- CDN de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Crear Usuario</h2>
+        <form th:action="@{/crear}" th:object="${usuario}" method="post">
+            <!-- Nombre de Usuario -->
+            <div class="form-group">
+                <label for="username">Nombre de Usuario:</label>
+                <input type="text" class="form-control" id="username" name="username" th:field="*{username}" required>
+                <div th:errorclass="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" class="form-control" id="password" name="password" th:field="*{password}" required>
+                <div th:errorclass="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            </div>
+
+            <!-- Campos del Perfil de Usuario -->
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{perfilusuario.nombre}">
+                <div th:errorclass="text-danger" th:if="${#fields.hasErrors('perfilusuario.nombre')}" th:errors="*{perfilusuario.nombre}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="apellido">Apellido:</label>
+                <input type="text" class="form-control" id="apellido" name="apellido" th:field="*{perfilusuario.apellido}">
+                <div th:errorclass="text-danger" th:if="${#fields.hasErrors('perfilusuario.apellido')}" th:errors="*{perfilusuario.apellido}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" th:field="*{perfilusuario.email}">
+                <div th:errorclass="text-danger" th:if="${#fields.hasErrors('perfilusuario.email')}" th:errors="*{perfilusuario.email}"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Crear Usuario</button>
+        </form>
+    </div>
+
+    <!-- Scripts de Bootstrap (Opcional) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
