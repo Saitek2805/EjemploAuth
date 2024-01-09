@@ -1,12 +1,16 @@
 package com.example.demo.configuracion;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -16,10 +20,6 @@ import com.example.demo.entidad.enumerado.RolUsuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 
 @Component
@@ -39,6 +39,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		    String email = (String) attributes.get("email");
 		    String name = (String) attributes.get("name");
 
+		    
 		    logger.info("# onAuthenticationSuccess email: {}#", email);
     	}
     	
@@ -49,10 +50,8 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     protected String determineTargetUrl(Authentication authentication) {
     	 logger.info("# determineTargetUrl #");
 
-    	 if (authentication.getPrincipal() instanceof OAuth2User) {
-    		 return "/oauth";
-    	 }else {
-    	 
+
+        boolean isGoogle = authentication.getPrincipal() instanceof OAuth2User;
         boolean isAdmin = authentication.getAuthorities().contains(new SimpleGrantedAuthority(RolUsuario.ROLE_ADMIN.toString()));
         boolean isUser = authentication.getAuthorities().contains(new SimpleGrantedAuthority(RolUsuario.ROLE_USER.toString()));
 
@@ -61,9 +60,11 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             return "/admin/home"; // URL para administradores
         } else if (isUser) {
             return "/user/home"; // URL para usuarios
+        } else if(isGoogle) {
+        	 return "/oauth";
         } else {
             throw new IllegalStateException();
         }
-    	 }
+    	 
     }
 }
