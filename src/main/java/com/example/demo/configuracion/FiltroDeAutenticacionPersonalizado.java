@@ -32,33 +32,15 @@ public class FiltroDeAutenticacionPersonalizado extends BasicAuthenticationFilte
             throws IOException, ServletException {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	
-		
 		
         if (authentication != null) {
         	
-        	if (authentication.getPrincipal() instanceof OAuth2User) {
-    		    // Definir la lógica de redirección para usuarios de Google
-
-    		    OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-    		    // Extrae la información necesaria del objeto OAuth2User
-    		    Map<String, Object> attributes = oAuth2User.getAttributes();
-    		    String email = (String) attributes.get("email");
-    		    String name = (String) attributes.get("name");
-    		    // Aquí puedes incluir la lógica para manejar el email y el nombre, como guardarlos en la base de datos
-
-    		  
-    		    
-    		    // Registro de actividad para fines de depuración o auditoría
-    		    
-    		    logger.info("#FiltroDeAutenticacionPersonalizado#");
-    		    logger.info("Usuario autenticado con Google: Email = {}, Nombre = {}", email, name);
-    		}
-        	
-        	
-        	
+        
+        
+        	boolean isGoogle = authentication.getPrincipal() instanceof OAuth2User;
             boolean isUser = authentication.getAuthorities().contains(new SimpleGrantedAuthority(RolUsuario.ROLE_USER.toString()));
             boolean isAdmin = authentication.getAuthorities().contains(new SimpleGrantedAuthority(RolUsuario.ROLE_ADMIN.toString()));
+           
             String requestURI = request.getRequestURI();
             try {
                 // Redirigir si es un usuario y está intentando acceder a /home
@@ -68,6 +50,18 @@ public class FiltroDeAutenticacionPersonalizado extends BasicAuthenticationFilte
                 }else if(isAdmin && (("/home".equals(requestURI) || ("/login".equals(requestURI) )))) {
                 	 response.sendRedirect("/admin/home"); // URL para usuarios
                      return;
+                }else if(isGoogle) {
+                	   OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+           		    // Extrae la información necesaria del objeto OAuth2User
+           		    Map<String, Object> attributes = oAuth2User.getAttributes();
+           		    String email = (String) attributes.get("email");
+           		    String name = (String) attributes.get("name");
+           		    
+           		    // Registro de actividad para fines de depuración o auditoría
+           		    
+           		    logger.info("#FiltroDeAutenticacionPersonalizado#");
+           		    logger.info("Usuario autenticado con Google: Email = {}, Nombre = {}", email, name);
+           		    
                 }
             } catch (IOException e) {
                 // Loggear o manejar la excepción de redirección

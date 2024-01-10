@@ -1,16 +1,12 @@
 package com.example.demo.configuracion;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -32,18 +28,6 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     	String targetUrl = determineTargetUrl(authentication);
     	 logger.info("# onAuthenticationSuccess targetUrl: {}#", targetUrl);
     	
-    	if (authentication.getPrincipal() instanceof OAuth2User) {
-    		OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-		    // Extrae la información necesaria del objeto OAuth2User
-		    Map<String, Object> attributes = oAuth2User.getAttributes();
-		    String email = (String) attributes.get("email");
-		    String name = (String) attributes.get("name");
-
-		    
-		    logger.info("# onAuthenticationSuccess email: {}#", email);
-    	}
-    	
-    	
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
@@ -61,10 +45,25 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         } else if (isUser) {
             return "/user/home"; // URL para usuarios
         } else if(isGoogle) {
-        	 return "/oauth";
+        	
+        	//mostrarJWT(authentication);
+           
+        	 return "/oauth"; // URL para usuarios GOOGLE
         } else {
             throw new IllegalStateException();
         }
     	 
     }
+
+	private void mostrarJWT(Authentication authentication) {
+		 OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
+    	 // Obtener el token de acceso
+        String accessToken = null;
+        if (oauthToken.getPrincipal() instanceof OidcUser) {
+            OidcUser oidcUser = (OidcUser) oauthToken.getPrincipal();
+            accessToken = oidcUser.getIdToken().getTokenValue();
+        }
+        logger.info("#> accessToken # {}" , accessToken);
+		
+	}
 }

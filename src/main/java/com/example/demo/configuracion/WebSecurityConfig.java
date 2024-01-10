@@ -23,6 +23,7 @@ public class WebSecurityConfig {
 	 @Autowired
 	 private UsuarioPersonalizadoDetailsService userDetailsService;
 
+
 	@Bean
 	public  SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationConfiguration authenticationConfiguration) throws Exception {
        
@@ -63,11 +64,7 @@ public class WebSecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder();
 	}
-	/*
-	@Bean
-	public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
-	    return new UsuarioGoogleOAuth2UserService();
-	}*/
+
 }
 	/**
 	 * En memoria
