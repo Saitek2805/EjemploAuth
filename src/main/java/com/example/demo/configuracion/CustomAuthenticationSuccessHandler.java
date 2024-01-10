@@ -64,6 +64,6 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             accessToken = oidcUser.getIdToken().getTokenValue();
         }
         logger.info("#> accessToken # {}" , accessToken);
-		
+		 logger.info("#> https://jwt.io/ #);
 	}
 }
