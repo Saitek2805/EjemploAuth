@@ -4,19 +4,82 @@
     <title>Página de Administrador</title>
     <!-- Incluir Bootstrap CSS desde CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	        <link href="css/AAestilomioabout.css" type="text/css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-4">
-        <h1>Bienvenido, <span th:text="${session.username}">Nombre de Usuario</span>!</h1>
+		<nav id="navbar" class="navbar navbar-dark navbar-expand-lg bg-black">
+		        <div class="container-fluid">
+		            <a class="navbar-brand" href="index.html">
+		                <!-- Logo empresa(-->
+		                <img src="img/logo.webp" alt="pingüino" width="30" height="24" class="d-inline-block align-text-tops">
+		                <span class="text-warning">Inicio</span>
+		            </a>
+		          
+		          <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+		            <span class="navbar-toggler-icon "></span>
+		          </button>
+		          <div class="collapse navbar-collapse justify-content-end " id="navbarNavDropdown">
+		            <ul class="navbar-nav">
+		              <li class="nav-item">
+		                <!-- Elementoss -->
+		                <a class="nav-link  text-warning" aria-current="page" href="lanzamientos.html">Nuevos lanzamientos</a>
+		              </li>
+		              <li class="nav-item">
+		                <a class="nav-link text-warning" href="guias.html">Guías</a>
+		              </li>
+		              <li class="nav-item">
+		                <a class="nav-link text-warning" href="noticias.html">Noticias </a>
+		              </li>
+		              <li class="nav-item">
+		               
+		                <a class="nav-link  text-warning" href="about.html">About</a>
+		              </li>
+		              <!-- Menú desplegable -->
+		              <li class="nav-item dropdown">
+		                <a class="nav-link text-warning dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+		                  Sponsor
+		                </a>
+		                <ul class="dropdown-menu bg-warning">
+		                  <li><a class="dropdown-item " href="#">Google</a></li>
+		                  <li><a class="dropdown-item" href="#">IES Alixar</a></li>
+		                  <li><a class="dropdown-item" href="#">wikipedia</a></li>
+		                </ul>
+		              </li>
+		              <li>
+		                <!-- Zona de búsqueda-->
+		                <div class="container-fluid">
+		                  <form class="d-flex" role="search">
+		                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+		                    <button class="btn btn-outline-warning" type="submit">Search</button>
+		                  </form>
+		                </div>
+		              </li>
+		              <li>
+		                <!--SILUETA D PERSONA-->
+		                <button class="btn btn-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop"  aria-controls="staticBackdrop">
+		                  <img src="img/silueta.png" alt="Zona de usuarios">
+		                </button>
+		              </li>
+		            </ul>
+		          </div>
+		        </div>
+		      </nav>
+		      
+        <h1>Bienvenido, <span >Administrador</span>!</h1>
         <p>Esta página es solo para administradores.</p>
         <!-- Fragmento de cierre de sesión -->
         <div th:replace="~{fragments/logout-fragment :: logout-link}"></div>
+		<div th:replace="~{fragments/footer :: footerFragment}"></div>
     </div>
 
     <!-- Opcional: Incluir JavaScript de Bootstrap y sus dependencias -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<div th:replace="~{fragments/footer :: footerFragment}"></div>
+	<script src="js/bootstrap.bundle.min.js"></script>
+	      
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </body>
 </html>

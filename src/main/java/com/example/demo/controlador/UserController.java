@@ -145,7 +145,7 @@ public class UserController {
         comentario.setFechaCreacion(LocalDateTime.now());
         model.addAttribute("comentario", comentario);
         model.addAttribute("usuarioDTO", usuarioDTO); // Añadir el UsuarioDTO al modelo si es necesario
-
+        
         return "/auth/user/formCrearComentario";
     }
 

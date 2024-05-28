@@ -1,0 +1,194 @@
+/*Para no romper el posicionamiento del navbar*/
+.separacion{
+    height: 75px;
+}
+.doble{
+    height: 300px;
+    margin-top: 75px;
+}
+/* Establecer el formato para las pantallas menores de 991px*/
+@media screen and (max-width: 991px) {
+    .nav-item{
+        margin-left: 2%;
+    }
+    li>button{
+        margin: 1.6%;
+    }
+    .container{
+        width: 75%;
+    }
+    /* esconde los elementos de la derecha*/
+    .quintuple {
+        display: none;
+    }
+    .doble{
+        margin-top: 0px;
+        
+    }
+    .col-lg-2{
+        margin-top: 15%;
+    }
+    .noticias{
+        margin-top: 1000px; 
+    }
+    .ancho{
+        width: 110%
+    }
+    footer{
+        width: 100%;
+    }
+    .tarjeta{
+        height: 300px;
+    }
+}
+@media screen and (max-width: 1308px) {
+    .esconder{
+        display: none;
+    }
+}
+/*Borde a los textos del carrusel*/
+.text-with-border {
+    -webkit-text-stroke: 1px black; /* Para Safari/Chrome */
+    text-stroke: 1px black; /* Para Firefox */
+    font-size: 2em;
+  }
+  /*para que el boton de registro no ocupe toda la pantalla*/
+button>img{
+    height: 24px;
+    padding: 0;
+    margin: 0;
+}
+.noticias{
+    margin-bottom: 20px;
+}
+/*Para que la imagen del registro no se haga muy grande*/
+li>button{
+    height: 38px;
+}
+.container{
+    max-width: 100%;
+}
+/* esto es para ver la estructura, luego hay que borrarlo
+.container div{
+    border: 1px black solid; 
+}*/
+/*Establece tamaños para columnas*/
+
+.triple{
+    height: 450px;
+}
+.quintuple{
+    height: 700px;
+}
+/*establece tamaño mas para que la imagen no desborde*/
+.carousel .carousel-item {
+    height: 300px;
+}
+/*Para que el carrusel no desborde*/
+.carousel-item img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      min-height: 300px;
+}
+/*Para que la imagen se amplie al poner el cursos encima*/
+.zoom:hover {
+    transform: scale(1.25);
+    transition: transform 0.5s ease-in-out;
+}
+/*para que el scroll del navbar funcione*/
+#navbar {
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    transition: top 0.3s;
+}
+.lateral{
+    height: 125px;
+    
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+/*estilo footer*/
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 20px 0;
+}
+/*gradiente*/
+body {
+    background: linear-gradient(to top right, orange, black);
+
+}
+
+
+/*
+.navbar .nav-link, .footer .text-warning {
+    color: #ff9800;
+}
+
+.navbar .nav-link:hover, .footer .text-warning:hover {
+    color: #ffcc80;
+}
+
+.navbar-brand span {
+    color: #ff9800;
+}
+*/
+/* Dar formato a las tarjetas*/
+.card {
+    background-color: #1e1e1e;
+    border: none;
+}
+*{
+    font-family: sans-serif;
+}
+h5,h1{
+    font-weight: bold;
+}/*para que haya un bordecillo al hacer hover*/
+.card:hover{
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 
+    0 6px 6px rgba(0, 0, 0, 0.2), 
+    0 0 30px rgba(255, 105, 180, 0.3);
+}
+/*color de los textos*/
+.card-title, .card-text, .card-body {
+    color: #ff9800;
+}
+/*transicion al hacer zoom*/
+.card img {
+    transition: transform 0.5s ease-in-out;
+}
+/*zoom a imagenes*/
+.zoom:hover {
+    transform: scale(1.20);
+    
+}
+
+.carousel-inner {
+    overflow: hidden;
+}
+
+.carousel-item img {
+    object-fit: cover;
+}
+/*formato a los links*/
+a:link {
+    color: inherit; /* Utiliza el color por defecto del texto */
+    text-decoration: none; /* Quita el subrayado */
+  }
+  
+  /* Estilos para enlaces ya visitados */
+  a:visited {
+    color: inherit; /* Utiliza el color por defecto del texto */
+    text-decoration: none; /* Quita el subrayado */
+}
+/*para que las imagenes no ocupen toda la pantalla*/
+.social{
+    width: 30px;
+}

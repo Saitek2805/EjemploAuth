@@ -1,0 +1,63 @@
+/*Para no romper el posicionamiento del navbar*/
+.separacion{
+    height: 75px;
+}
+/*para que el scroll del navbar funcione*/
+#navbar {
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    transition: top 0.3s;
+}
+.img{
+    text-align: center;
+    
+}
+*{
+    font-family: sans-serif;
+}
+
+body{
+    background: linear-gradient(to top right, orange, black);    
+}
+.needs-validation{
+    padding: 30px;
+    border-radius: 10%;
+    max-width: 700px;
+    margin: auto auto;
+}
+@media screen and (max-width: 991px) {
+    .nav-item{
+        margin-left: 2%;
+    }
+    li>button{
+        margin: 1.6%;
+    }
+}
+button>img{
+    height: 24px;
+    padding: 0;
+    margin: 0;
+}
+li>button{
+    height: 38px;
+}
+@media screen and (min-width: 576px) {
+    form{
+        border-radius: 5%;
+    }
+  }
+  
+  /*estilo footer*/
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 20px 0;
+}
+.social{
+    width: 30px;
+}
+.container{
+    margin-bottom:150px;
+}
